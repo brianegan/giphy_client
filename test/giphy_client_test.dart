@@ -85,7 +85,7 @@ void main() {
           .thenAnswer((_) async => new Response(byIdBody, 404));
 
       expect(
-        client.byId('l46Cc0Ped9R0uiTkY'),
+        () async => await client.byId('l46Cc0Ped9R0uiTkY'),
         throwsA(new isInstanceOf<GiphyClientError>()),
       );
     });
