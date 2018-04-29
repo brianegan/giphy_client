@@ -15,7 +15,7 @@ void main() {
     test('should fetch trending gifs', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -30,7 +30,7 @@ void main() {
     test('should search gifs', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -45,7 +45,7 @@ void main() {
     test('should load a random gif', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -61,7 +61,7 @@ void main() {
     test('should load a gif by id', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -74,10 +74,26 @@ void main() {
       expect(gif.title, 'beyonce freedom GIF by BET Awards');
     });
 
+    test('should throw an error if response is not 200', () async {
+      final httpClient = new MockClient();
+      final client = new GiphyClient(
+        apiKey: 'test_api_key_here',
+        client: httpClient,
+      );
+
+      when(httpClient.get(typed<Response>(any)))
+          .thenAnswer((_) async => new Response(byIdBody, 404));
+
+      expect(
+        client.byId('l46Cc0Ped9R0uiTkY'),
+        throwsA(new isInstanceOf<GiphyClientError>()),
+      );
+    });
+
     test('should parse gifs correctly', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -112,7 +128,7 @@ void main() {
     test('should parse users correctly', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
@@ -147,7 +163,7 @@ void main() {
     test('should parse images correctly', () async {
       final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: '9cMC39G6YEkGNCaCMOT574TSycobSTok',
+        apiKey: 'test_api_key_here',
         client: httpClient,
       );
 
