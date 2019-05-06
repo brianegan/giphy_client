@@ -9,7 +9,7 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
 class GiphyClient {
-  static final baseUri = new Uri(scheme: 'https', host: 'api.giphy.com');
+  static final baseUri = Uri(scheme: 'https', host: 'api.giphy.com');
 
   final String _apiKey;
   final Client _client;
@@ -18,7 +18,7 @@ class GiphyClient {
     @required String apiKey,
     Client client,
   })  : _apiKey = apiKey,
-        _client = client ?? new Client();
+        _client = client ?? Client();
 
   Future<GiphyCollection> trending({
     int offset = 0,
@@ -79,14 +79,14 @@ class GiphyClient {
   Future<GiphyGif> _fetchGif(Uri uri) async {
     final response = await _getWithAuthorization(uri);
 
-    return new GiphyGif.fromJson((json.decode(response.body)
+    return GiphyGif.fromJson((json.decode(response.body)
         as Map<String, dynamic>)['data'] as Map<String, dynamic>);
   }
 
   Future<GiphyCollection> _fetchCollection(Uri uri) async {
     final response = await _getWithAuthorization(uri);
 
-    return new GiphyCollection.fromJson(
+    return GiphyCollection.fromJson(
         json.decode(response.body) as Map<String, dynamic>);
   }
 
@@ -94,7 +94,7 @@ class GiphyClient {
     final response = await _client.get(
       uri
           .replace(
-            queryParameters: new Map<String, String>.from(uri.queryParameters)
+            queryParameters: Map<String, String>.from(uri.queryParameters)
               ..putIfAbsent('api_key', () => _apiKey),
           )
           .toString(),
@@ -103,7 +103,7 @@ class GiphyClient {
     if (response.statusCode == 200) {
       return response;
     } else {
-      throw new GiphyClientError(response.statusCode, response.body);
+      throw GiphyClientError(response.statusCode, response.body);
     }
   }
 }

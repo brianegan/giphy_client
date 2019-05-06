@@ -1,10 +1,6 @@
 import 'package:giphy_client/src/models/gif.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'collection.g.dart';
-
-@JsonSerializable()
-class GiphyCollection extends Object with _$GiphyCollectionSerializerMixin {
+class GiphyCollection {
   final List<GiphyGif> data;
   final GiphyPagination pagination;
   final GiphyMeta meta;
@@ -12,17 +8,42 @@ class GiphyCollection extends Object with _$GiphyCollectionSerializerMixin {
   GiphyCollection({this.data, this.pagination, this.meta});
 
   factory GiphyCollection.fromJson(Map<String, dynamic> json) =>
-      _$GiphyCollectionFromJson(json);
+      GiphyCollection(
+          data: (json['data'] as List)
+              ?.map((e) => e == null
+                  ? null
+                  : GiphyGif.fromJson(e as Map<String, dynamic>))
+              ?.toList(),
+          pagination: json['pagination'] == null
+              ? null
+              : GiphyPagination.fromJson(
+                  json['pagination'] as Map<String, dynamic>),
+          meta: json['meta'] == null
+              ? null
+              : GiphyMeta.fromJson(json['meta'] as Map<String, dynamic>));
+
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{'data': data, 'pagination': pagination, 'meta': meta};
 
   @override
   String toString() {
     return 'GiphyCollection{data: $data, pagination: $pagination, meta: $meta}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GiphyCollection &&
+          runtimeType == other.runtimeType &&
+          data == other.data &&
+          pagination == other.pagination &&
+          meta == other.meta;
+
+  @override
+  int get hashCode => data.hashCode ^ pagination.hashCode ^ meta.hashCode;
 }
 
-@JsonSerializable()
-class GiphyPagination extends Object with _$GiphyPaginationSerializerMixin {
-  @JsonKey(name: 'total_count')
+class GiphyPagination {
   final int totalCount;
   final int count;
   final int offset;
@@ -30,29 +51,72 @@ class GiphyPagination extends Object with _$GiphyPaginationSerializerMixin {
   GiphyPagination({this.totalCount, this.count, this.offset});
 
   factory GiphyPagination.fromJson(Map<String, dynamic> json) =>
-      _$GiphyPaginationFromJson(json);
+      GiphyPagination(
+          totalCount: json['total_count'] as int,
+          count: json['count'] as int,
+          offset: json['offset'] as int);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'total_count': totalCount,
+      'count': count,
+      'offset': offset
+    };
+  }
 
   @override
   String toString() {
     return 'GiphyPagination{totalCount: $totalCount, count: $count, offset: $offset}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GiphyPagination &&
+          runtimeType == other.runtimeType &&
+          totalCount == other.totalCount &&
+          count == other.count &&
+          offset == other.offset;
+
+  @override
+  int get hashCode => totalCount.hashCode ^ count.hashCode ^ offset.hashCode;
 }
 
-@JsonSerializable()
-class GiphyMeta extends Object with _$GiphyMetaSerializerMixin {
+class GiphyMeta {
   final int status;
   final String msg;
 
-  @JsonKey(name: 'response_id')
   final String responseId;
 
   GiphyMeta({this.status, this.msg, this.responseId});
 
-  factory GiphyMeta.fromJson(Map<String, dynamic> json) =>
-      _$GiphyMetaFromJson(json);
+  factory GiphyMeta.fromJson(Map<String, dynamic> json) => GiphyMeta(
+      status: json['status'] as int,
+      msg: json['msg'] as String,
+      responseId: json['response_id'] as String);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'status': status,
+      'msg': msg,
+      'response_id': responseId
+    };
+  }
 
   @override
   String toString() {
     return 'GiphyMeta{status: $status, msg: $msg, responseId: $responseId}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GiphyMeta &&
+          runtimeType == other.runtimeType &&
+          status == other.status &&
+          msg == other.msg &&
+          responseId == other.responseId;
+
+  @override
+  int get hashCode => status.hashCode ^ msg.hashCode ^ responseId.hashCode;
 }
