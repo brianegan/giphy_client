@@ -19,12 +19,12 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(trendingBody, 200));
 
       final collection = await client.trending();
 
-      expect(collection, new isInstanceOf<GiphyCollection>());
+      expect(collection, new TypeMatcher<GiphyCollection>());
     });
 
     test('should search gifs', () async {
@@ -34,12 +34,12 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(searchBody, 200));
 
       final collection = await client.search('');
 
-      expect(collection, new isInstanceOf<GiphyCollection>());
+      expect(collection, new TypeMatcher<GiphyCollection>());
     });
 
     test('should load a random gif', () async {
@@ -49,12 +49,12 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(randomBody, 200));
 
       final gif = await client.random();
 
-      expect(gif, new isInstanceOf<GiphyGif>());
+      expect(gif, new TypeMatcher<GiphyGif>());
       expect(gif.title, 'drunk bbc two GIF by BBC');
     });
 
@@ -65,12 +65,12 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(byIdBody, 200));
 
       final gif = await client.byId('l46Cc0Ped9R0uiTkY');
 
-      expect(gif, new isInstanceOf<GiphyGif>());
+      expect(gif, new TypeMatcher<GiphyGif>());
       expect(gif.title, 'beyonce freedom GIF by BET Awards');
     });
 
@@ -81,7 +81,7 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
@@ -116,7 +116,7 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
@@ -133,8 +133,10 @@ void main() {
       expect(user.metadataDescription, 'The best GIFs in advertising.');
       expect(user.attributionDisplayName, 'ADWEEK');
       expect(user.name, 'ADWEEK');
-      expect(user.description,
-          'Welcome to Adweek on Giphy. The best advertising GIFs on the internet. Need a GIF from an ad? Hit us up on Twitter.');
+      expect(
+        user.description,
+        'Welcome to Adweek on Giphy. The best advertising GIFs on the internet. Need a GIF from an ad? Hit us up on Twitter.',
+      );
       expect(user.facebookUrl, 'https://www.facebook.com/Adweek');
       expect(user.twitterUrl, 'https://twitter.com/adweek');
       expect(user.instagramUrl, 'https://instagram.com/adweek');
@@ -151,36 +153,36 @@ void main() {
         client: httpClient,
       );
 
-      when(httpClient.get(typed<Response>(any)))
+      when(httpClient.get(any))
           .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
       final images = (await client.trending()).data.first.images;
-      expect(images.fixedHeightStill, new isInstanceOf<GiphyStillImage>());
-      expect(images.originalStill, new isInstanceOf<GiphyStillImage>());
-      expect(images.fixedWidth, new isInstanceOf<GiphyFullImage>());
-      expect(images.fixedHeightSmallStill, new isInstanceOf<GiphyStillImage>());
+      expect(images.fixedHeightStill, new TypeMatcher<GiphyStillImage>());
+      expect(images.originalStill, new TypeMatcher<GiphyStillImage>());
+      expect(images.fixedWidth, new TypeMatcher<GiphyFullImage>());
+      expect(images.fixedHeightSmallStill, new TypeMatcher<GiphyStillImage>());
       expect(
         images.fixedHeightDownsampled,
-        new isInstanceOf<GiphyDownsampledImage>(),
+        new TypeMatcher<GiphyDownsampledImage>(),
       );
-      expect(images.preview, new isInstanceOf<GiphyPreviewImage>());
-      expect(images.fixedHeightSmall, new isInstanceOf<GiphyFullImage>());
-      expect(images.downsizedStill, new isInstanceOf<GiphyStillImage>());
-      expect(images.downsized, new isInstanceOf<GiphyDownsizedImage>());
-      expect(images.downsizedLarge, new isInstanceOf<GiphyDownsizedImage>());
-      expect(images.fixedWidthSmallStill, new isInstanceOf<GiphyStillImage>());
-      expect(images.previewWebp, new isInstanceOf<GiphyWebPImage>());
-      expect(images.fixedWidthStill, new isInstanceOf<GiphyStillImage>());
-      expect(images.fixedWidthSmall, new isInstanceOf<GiphyFullImage>());
-      expect(images.downsizedSmall, new isInstanceOf<GiphyPreviewImage>());
-      expect(images.downsizedMedium, new isInstanceOf<GiphyPreviewImage>());
-      expect(images.original, new isInstanceOf<GiphyOriginalImage>());
-      expect(images.fixedHeight, new isInstanceOf<GiphyFullImage>());
-      expect(images.looping, new isInstanceOf<GiphyLoopingImage>());
-      expect(images.originalMp4, new isInstanceOf<GiphyPreviewImage>());
-      expect(images.previewGif, new isInstanceOf<GiphyDownsizedImage>());
-      expect(images.w480Still, new isInstanceOf<GiphyStillImage>());
+      expect(images.preview, new TypeMatcher<GiphyPreviewImage>());
+      expect(images.fixedHeightSmall, new TypeMatcher<GiphyFullImage>());
+      expect(images.downsizedStill, new TypeMatcher<GiphyStillImage>());
+      expect(images.downsized, new TypeMatcher<GiphyDownsizedImage>());
+      expect(images.downsizedLarge, new TypeMatcher<GiphyDownsizedImage>());
+      expect(images.fixedWidthSmallStill, new TypeMatcher<GiphyStillImage>());
+      expect(images.previewWebp, new TypeMatcher<GiphyWebPImage>());
+      expect(images.fixedWidthStill, new TypeMatcher<GiphyStillImage>());
+      expect(images.fixedWidthSmall, new TypeMatcher<GiphyFullImage>());
+      expect(images.downsizedSmall, new TypeMatcher<GiphyPreviewImage>());
+      expect(images.downsizedMedium, new TypeMatcher<GiphyPreviewImage>());
+      expect(images.original, new TypeMatcher<GiphyOriginalImage>());
+      expect(images.fixedHeight, new TypeMatcher<GiphyFullImage>());
+      expect(images.looping, new TypeMatcher<GiphyLoopingImage>());
+      expect(images.originalMp4, new TypeMatcher<GiphyPreviewImage>());
+      expect(images.previewGif, new TypeMatcher<GiphyDownsizedImage>());
+      expect(images.w480Still, new TypeMatcher<GiphyStillImage>());
     });
   });
 }
