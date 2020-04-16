@@ -24,10 +24,11 @@ class GiphyClient {
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,
+    bool sticker = false,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/trending',
+        path: sticker ? 'v1/stickers/trending' : 'v1/gifs/trending',
         queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
@@ -43,10 +44,11 @@ class GiphyClient {
     int limit = 30,
     String rating = GiphyRating.g,
     String lang = GiphyLanguage.english,
+    bool sticker = false,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/search',
+        path: sticker ? 'v1/stickers/search' : 'v1/gifs/search',
         queryParameters: <String, String>{
           'q': query,
           'offset': '$offset',
@@ -61,10 +63,11 @@ class GiphyClient {
   Future<GiphyGif> random({
     String tag,
     String rating = GiphyRating.g,
+    bool sticker = false,
   }) async {
     return _fetchGif(
       baseUri.replace(
-        path: 'v1/gifs/random',
+        path: sticker ? 'v1/stickers/random' : 'v1/gifs/random',
         queryParameters: <String, String>{
           'tag': tag,
           'rating': rating,
