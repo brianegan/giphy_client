@@ -63,7 +63,7 @@ class GiphyClient {
     );
   }
 
-  Future<GiphyCollection> emoji({
+  Future<GiphyCollection> emojis({
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,

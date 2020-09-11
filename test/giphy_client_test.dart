@@ -35,7 +35,7 @@ void main() {
         apiKey: _apiKey,
       );
 
-      final collection = await client.emoji();
+      final collection = await client.emojis();
 
       expect(collection, new TypeMatcher<GiphyCollection>());
     });
