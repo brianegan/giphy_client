@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:giphy_client/src/models/collection.dart';
 import 'package:giphy_client/src/models/gif.dart';
 import 'package:giphy_client/src/models/languages.dart';
-import 'package:giphy_client/src/models/path.dart';
 import 'package:giphy_client/src/models/rating.dart';
+import 'package:giphy_client/src/models/type.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
@@ -17,6 +17,7 @@ class GiphyClient {
   final String _apiKey;
   final Client _client;
   final String _random_id;
+  final String _apiVersion = 'v1';
 
   GiphyClient({@required String apiKey, Client client, String randomId})
       : _apiKey = apiKey,
@@ -27,11 +28,11 @@ class GiphyClient {
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,
-    String type = GiphyPath.gifs,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: '$type/trending',
+        path: '$_apiVersion/$type/trending',
         queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
@@ -47,11 +48,11 @@ class GiphyClient {
     int limit = 30,
     String rating = GiphyRating.g,
     String lang = GiphyLanguage.english,
-    String type = GiphyPath.gifs,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: '$type/gifs/search',
+        path: '$_apiVersion/$type/gifs/search',
         queryParameters: <String, String>{
           'q': query,
           'offset': '$offset',
@@ -71,7 +72,7 @@ class GiphyClient {
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: '${GiphyPath.emoji}',
+        path: '$_apiVersion/${GiphyType.emoji}',
         queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
@@ -85,11 +86,11 @@ class GiphyClient {
   Future<GiphyGif> random({
     String tag,
     String rating = GiphyRating.g,
-    String type = GiphyPath.gifs,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchGif(
       baseUri.replace(
-        path: '$type/random',
+        path: '$_apiVersion/$type/random',
         queryParameters: <String, String>{
           'tag': tag,
           'rating': rating,
