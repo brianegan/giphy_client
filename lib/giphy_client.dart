@@ -8,3 +8,4 @@ export 'src/models/images.dart';
 export 'src/models/languages.dart';
 export 'src/models/rating.dart';
 export 'src/models/user.dart';
+export 'src/models/type.dart';
