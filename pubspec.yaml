@@ -8,11 +8,13 @@ environment:
   sdk: '>=2.0.0-dev.28.0 <3.0.0'
 
 dependencies:
-  meta: ">=1.1.2 <2.0.0"
-  http: ">=0.12.0 <0.13.0"
+  meta:
+  http: ^0.12.0
 
 dev_dependencies:
-  test: ^1.5.0
+  flutter_test:
+    sdk: flutter
   mockito: ^4.0.0
-  coverage: ">=0.12.0 <0.13.0"
+  coverage: ^0.13.0
   pedantic: "1.4.0"
+  matcher: ^0.12.9
