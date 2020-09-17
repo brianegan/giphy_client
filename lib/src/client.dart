@@ -28,6 +28,7 @@ class GiphyClient {
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,
+     String lang = GiphyLanguage.english,
     String type = GiphyType.gifs,
   }) async {
     return _fetchCollection(
@@ -37,6 +38,7 @@ class GiphyClient {
           'offset': '$offset',
           'limit': '$limit',
           'rating': rating,
+          'lang':lang
         },
       ),
     );
