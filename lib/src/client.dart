@@ -54,7 +54,7 @@ class GiphyClient {
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: '$_apiVersion/$type/gifs/search',
+        path: '$_apiVersion/$type/search',
         queryParameters: <String, String>{
           'q': query,
           'offset': '$offset',
