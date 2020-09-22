@@ -19,4 +19,8 @@ void main() async {
   );
 
   print(nsfwGifs);
+
+  // Fetch Emojis
+  final emojis = await client.emojis();
+  print(emojis);
 }

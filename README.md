@@ -38,4 +38,4 @@ main() async {
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://github.com/brianegan/giphy_client/issues/new
+[tracker]: http://github.com/bazookon/giphy_client/issues/new

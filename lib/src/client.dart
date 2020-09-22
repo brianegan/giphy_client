@@ -5,33 +5,40 @@ import 'package:giphy_client/src/models/collection.dart';
 import 'package:giphy_client/src/models/gif.dart';
 import 'package:giphy_client/src/models/languages.dart';
 import 'package:giphy_client/src/models/rating.dart';
+import 'package:giphy_client/src/models/type.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
+
+import 'models/collection.dart';
 
 class GiphyClient {
   static final baseUri = Uri(scheme: 'https', host: 'api.giphy.com');
 
   final String _apiKey;
   final Client _client;
+  final String _random_id;
+  final String _apiVersion = 'v1';
 
-  GiphyClient({
-    @required String apiKey,
-    Client client,
-  })  : _apiKey = apiKey,
+  GiphyClient({@required String apiKey, Client client, String randomId})
+      : _apiKey = apiKey,
+        _random_id = randomId ?? '',
         _client = client ?? Client();
 
   Future<GiphyCollection> trending({
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,
+    String lang = GiphyLanguage.english,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/trending',
+        path: '$_apiVersion/$type/trending',
         queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
           'rating': rating,
+          'lang': lang
         },
       ),
     );
@@ -43,12 +50,32 @@ class GiphyClient {
     int limit = 30,
     String rating = GiphyRating.g,
     String lang = GiphyLanguage.english,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/search',
+        path: '$_apiVersion/$type/search',
         queryParameters: <String, String>{
           'q': query,
+          'offset': '$offset',
+          'limit': '$limit',
+          'rating': rating,
+          'lang': lang,
+        },
+      ),
+    );
+  }
+
+  Future<GiphyCollection> emojis({
+    int offset = 0,
+    int limit = 30,
+    String rating = GiphyRating.g,
+    String lang = GiphyLanguage.english,
+  }) async {
+    return _fetchCollection(
+      baseUri.replace(
+        path: '$_apiVersion/${GiphyType.emoji}',
+        queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
           'rating': rating,
@@ -61,10 +88,11 @@ class GiphyClient {
   Future<GiphyGif> random({
     String tag,
     String rating = GiphyRating.g,
+    String type = GiphyType.gifs,
   }) async {
     return _fetchGif(
       baseUri.replace(
-        path: 'v1/gifs/random',
+        path: '$_apiVersion/$type/random',
         queryParameters: <String, String>{
           'tag': tag,
           'rating': rating,
@@ -95,7 +123,8 @@ class GiphyClient {
       uri
           .replace(
             queryParameters: Map<String, String>.from(uri.queryParameters)
-              ..putIfAbsent('api_key', () => _apiKey),
+              ..putIfAbsent('api_key', () => _apiKey)
+              ..putIfAbsent('random_id', () => _random_id),
           )
           .toString(),
     );

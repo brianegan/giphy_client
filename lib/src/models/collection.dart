@@ -1,4 +1,4 @@
-import 'package:giphy_client/src/models/gif.dart';
+import '../../giphy_client.dart';
 
 class GiphyCollection {
   final List<GiphyGif> data;

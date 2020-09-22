@@ -1,26 +1,19 @@
 import 'package:giphy_client/giphy_client.dart';
 import 'package:http/http.dart';
+import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test/test.dart';
-
-import 'data/byId.dart';
-import 'data/random.dart';
-import 'data/search.dart';
-import 'data/trending.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class MockClient extends Mock implements Client {}
 
 void main() {
+  String _apiKey = 'your api key here';
+
   group('GiphyClient', () {
     test('should fetch trending gifs', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(trendingBody, 200));
 
       final collection = await client.trending();
 
@@ -28,29 +21,29 @@ void main() {
     });
 
     test('should search gifs', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(searchBody, 200));
 
       final collection = await client.search('');
 
       expect(collection, new TypeMatcher<GiphyCollection>());
     });
 
-    test('should load a random gif', () async {
-      final httpClient = new MockClient();
+    test('should fetch emojis', () async {
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
 
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(randomBody, 200));
+      final collection = await client.emojis();
+
+      expect(collection, new TypeMatcher<GiphyCollection>());
+    });
+
+    test('should load a random gif', () async {
+      final client = new GiphyClient(
+        apiKey: _apiKey,
+      );
 
       final gif = await client.random();
 
@@ -59,14 +52,9 @@ void main() {
     });
 
     test('should load a gif by id', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(byIdBody, 200));
 
       final gif = await client.byId('l46Cc0Ped9R0uiTkY');
 
@@ -75,14 +63,9 @@ void main() {
     });
 
     test('should parse gifs correctly', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
       final gif = (await client.trending()).data.first;
@@ -110,14 +93,9 @@ void main() {
     });
 
     test('should parse users correctly', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
       final user = (await client.trending()).data.first.user;
@@ -147,24 +125,19 @@ void main() {
     });
 
     test('should parse images correctly', () async {
-      final httpClient = new MockClient();
       final client = new GiphyClient(
-        apiKey: 'test_api_key_here',
-        client: httpClient,
+        apiKey: _apiKey,
       );
-
-      when(httpClient.get(any))
-          .thenAnswer((_) async => new Response(trendingBody, 200));
 
       // Gif Validation
       final images = (await client.trending()).data.first.images;
       expect(images.fixedHeightStill, new TypeMatcher<GiphyStillImage>());
       expect(images.originalStill, new TypeMatcher<GiphyStillImage>());
-      expect(images.fixedWidth, new TypeMatcher<GiphyFullImage>());
+      expect(images.fixedWidth, new GiphyFullImage());
       expect(images.fixedHeightSmallStill, new TypeMatcher<GiphyStillImage>());
       expect(
         images.fixedHeightDownsampled,
-        new TypeMatcher<GiphyDownsampledImage>(),
+        new GiphyDownsampledImage(),
       );
       expect(images.preview, new TypeMatcher<GiphyPreviewImage>());
       expect(images.fixedHeightSmall, new TypeMatcher<GiphyFullImage>());
