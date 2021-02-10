@@ -1,19 +1,19 @@
 import 'package:giphy_client/src/models/gif.dart';
 
 class GiphyCollection {
-  final List<GiphyGif> data;
-  final GiphyPagination pagination;
-  final GiphyMeta meta;
+  final List<GiphyGif?>? data;
+  final GiphyPagination? pagination;
+  final GiphyMeta? meta;
 
   GiphyCollection({this.data, this.pagination, this.meta});
 
   factory GiphyCollection.fromJson(Map<String, dynamic> json) =>
       GiphyCollection(
-          data: (json['data'] as List)
+          data: (json['data'] as List?)
               ?.map((e) => e == null
                   ? null
                   : GiphyGif.fromJson(e as Map<String, dynamic>))
-              ?.toList(),
+              .toList(),
           pagination: json['pagination'] == null
               ? null
               : GiphyPagination.fromJson(
@@ -44,17 +44,17 @@ class GiphyCollection {
 }
 
 class GiphyPagination {
-  final int totalCount;
-  final int count;
-  final int offset;
+  final int? totalCount;
+  final int? count;
+  final int? offset;
 
   GiphyPagination({this.totalCount, this.count, this.offset});
 
   factory GiphyPagination.fromJson(Map<String, dynamic> json) =>
       GiphyPagination(
-          totalCount: json['total_count'] as int,
-          count: json['count'] as int,
-          offset: json['offset'] as int);
+          totalCount: json['total_count'] as int?,
+          count: json['count'] as int?,
+          offset: json['offset'] as int?);
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -83,17 +83,17 @@ class GiphyPagination {
 }
 
 class GiphyMeta {
-  final int status;
-  final String msg;
+  final int? status;
+  final String? msg;
 
-  final String responseId;
+  final String? responseId;
 
   GiphyMeta({this.status, this.msg, this.responseId});
 
   factory GiphyMeta.fromJson(Map<String, dynamic> json) => GiphyMeta(
-      status: json['status'] as int,
-      msg: json['msg'] as String,
-      responseId: json['response_id'] as String);
+      status: json['status'] as int?,
+      msg: json['msg'] as String?,
+      responseId: json['response_id'] as String?);
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
