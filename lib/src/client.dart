@@ -15,8 +15,8 @@ class GiphyClient {
   final Client _client;
 
   GiphyClient({
-    @required String apiKey,
-    Client client,
+    required String apiKey,
+    Client? client,
   })  : _apiKey = apiKey,
         _client = client ?? Client();
 
@@ -59,13 +59,13 @@ class GiphyClient {
   }
 
   Future<GiphyGif> random({
-    String tag,
+    String? tag,
     String rating = GiphyRating.g,
   }) async {
     return _fetchGif(
       baseUri.replace(
         path: 'v1/gifs/random',
-        queryParameters: <String, String>{
+        queryParameters: <String, String?>{
           'tag': tag,
           'rating': rating,
         },
@@ -92,12 +92,10 @@ class GiphyClient {
 
   Future<Response> _getWithAuthorization(Uri uri) async {
     final response = await _client.get(
-      uri
-          .replace(
-            queryParameters: Map<String, String>.from(uri.queryParameters)
-              ..putIfAbsent('api_key', () => _apiKey),
-          )
-          .toString(),
+      uri.replace(
+        queryParameters: Map<String, String>.from(uri.queryParameters)
+          ..putIfAbsent('api_key', () => _apiKey),
+      ),
     );
 
     if (response.statusCode == 200) {
