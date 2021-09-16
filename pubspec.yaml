@@ -2,17 +2,16 @@ name: giphy_client
 description: A Giphy API Client for Dart compatible Web, Flutter, and server-side dart
 version: 0.2.0
 homepage: https://www.github.com/brianegan/giphy_client
-author: Brian Egan <brian@brianegan.com>
 
 environment:
-  sdk: '>=2.0.0-dev.28.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  meta: ">=1.1.2 <2.0.0"
-  http: ">=0.12.0 <0.13.0"
+  meta: ^1.7.0
+  http: ^0.13.3
 
 dev_dependencies:
-  test: ^1.5.0
-  mockito: ^4.0.0
-  coverage: ">=0.12.0 <0.13.0"
-  pedantic: "1.4.0"
+  test: ^1.17.12
+  mockito: ^5.0.16
+  coverage: ^1.0.3
+  pedantic: ^1.11.1

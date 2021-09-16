@@ -6,7 +6,6 @@ import 'package:giphy_client/src/models/gif.dart';
 import 'package:giphy_client/src/models/languages.dart';
 import 'package:giphy_client/src/models/rating.dart';
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 
 class GiphyClient {
   static final baseUri = Uri(scheme: 'https', host: 'api.giphy.com');
@@ -15,8 +14,8 @@ class GiphyClient {
   final Client _client;
 
   GiphyClient({
-    @required String apiKey,
-    Client client,
+    required String apiKey,
+    Client? client,
   })  : _apiKey = apiKey,
         _client = client ?? Client();
 
@@ -61,14 +60,14 @@ class GiphyClient {
   }
 
   Future<GiphyGif> random({
-    String tag,
+    String? tag,
     String rating = GiphyRating.g,
     bool sticker = false,
   }) async {
     return _fetchGif(
       baseUri.replace(
         path: sticker ? 'v1/stickers/random' : 'v1/gifs/random',
-        queryParameters: <String, String>{
+        queryParameters: <String, String?>{
           'tag': tag,
           'rating': rating,
         },
@@ -95,12 +94,10 @@ class GiphyClient {
 
   Future<Response> _getWithAuthorization(Uri uri) async {
     final response = await _client.get(
-      uri
-          .replace(
-            queryParameters: Map<String, String>.from(uri.queryParameters)
-              ..putIfAbsent('api_key', () => _apiKey),
-          )
-          .toString(),
+      uri.replace(
+        queryParameters: Map<String, String>.from(uri.queryParameters)
+          ..putIfAbsent('api_key', () => _apiKey),
+      ),
     );
 
     if (response.statusCode == 200) {

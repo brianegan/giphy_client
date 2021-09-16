@@ -2,25 +2,25 @@ import 'package:giphy_client/src/models/images.dart';
 import 'package:giphy_client/src/models/user.dart';
 
 class GiphyGif {
-  final String title;
-  final String type;
-  final String id;
-  final String slug;
-  final String url;
-  final String bitlyGifUrl;
-  final String bitlyUrl;
-  final String embedUrl;
-  final String username;
-  final String source;
-  final String rating;
-  final String contentUrl;
-  final String sourceTld;
-  final String sourcePostUrl;
-  final int isSticker;
-  final DateTime importDatetime;
-  final DateTime trendingDatetime;
-  final GiphyUser user;
-  final GiphyImages images;
+  final String? title;
+  final String? type;
+  final String? id;
+  final String? slug;
+  final String? url;
+  final String? bitlyGifUrl;
+  final String? bitlyUrl;
+  final String? embedUrl;
+  final String? username;
+  final String? source;
+  final String? rating;
+  final String? contentUrl;
+  final String? sourceTld;
+  final String? sourcePostUrl;
+  final int? isSticker;
+  final DateTime? importDatetime;
+  final DateTime? trendingDatetime;
+  final GiphyUser? user;
+  final GiphyImages? images;
 
   GiphyGif({
     this.title,
@@ -45,21 +45,21 @@ class GiphyGif {
   });
 
   factory GiphyGif.fromJson(Map<String, dynamic> json) => GiphyGif(
-      title: json['title'] as String,
-      type: json['type'] as String,
-      id: json['id'] as String,
-      slug: json['slug'] as String,
-      url: json['url'] as String,
-      bitlyGifUrl: json['bitly_gif_url'] as String,
-      bitlyUrl: json['bitly_url'] as String,
-      embedUrl: json['embed_url'] as String,
-      username: json['username'] as String,
-      source: json['source'] as String,
-      rating: json['rating'] as String,
-      contentUrl: json['content_url'] as String,
-      sourceTld: json['source_tld'] as String,
-      sourcePostUrl: json['source_post_url'] as String,
-      isSticker: json['is_sticker'] as int,
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+      id: json['id'] as String?,
+      slug: json['slug'] as String?,
+      url: json['url'] as String?,
+      bitlyGifUrl: json['bitly_gif_url'] as String?,
+      bitlyUrl: json['bitly_url'] as String?,
+      embedUrl: json['embed_url'] as String?,
+      username: json['username'] as String?,
+      source: json['source'] as String?,
+      rating: json['rating'] as String?,
+      contentUrl: json['content_url'] as String?,
+      sourceTld: json['source_tld'] as String?,
+      sourcePostUrl: json['source_post_url'] as String?,
+      isSticker: json['is_sticker'] as int?,
       importDatetime: json['import_datetime'] == null
           ? null
           : DateTime.parse(json['import_datetime'] as String),
