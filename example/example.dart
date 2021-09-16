@@ -4,7 +4,7 @@ void main() async {
   // Create the client with an api key
   //
   // Visit https://developers.giphy.com to obtain a key
-  final client = GiphyClient(apiKey: 'your_api_key_here');
+  final client = GiphyClient(apiKey: 'iMJg3l0F9UZc22OJKmSceTxgsspApoOy');
 
   // Fetch & print a collection of trending gifs
   final gifs = await client.trending();

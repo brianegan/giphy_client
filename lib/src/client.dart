@@ -6,7 +6,6 @@ import 'package:giphy_client/src/models/gif.dart';
 import 'package:giphy_client/src/models/languages.dart';
 import 'package:giphy_client/src/models/rating.dart';
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 
 class GiphyClient {
   static final baseUri = Uri(scheme: 'https', host: 'api.giphy.com');
@@ -15,8 +14,8 @@ class GiphyClient {
   final Client _client;
 
   GiphyClient({
-    @required String apiKey,
-    Client client,
+    required String apiKey,
+    Client? client,
   })  : _apiKey = apiKey,
         _client = client ?? Client();
 
@@ -24,10 +23,11 @@ class GiphyClient {
     int offset = 0,
     int limit = 30,
     String rating = GiphyRating.g,
+    bool sticker = false,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/trending',
+        path: sticker ? 'v1/stickers/trending' : 'v1/gifs/trending',
         queryParameters: <String, String>{
           'offset': '$offset',
           'limit': '$limit',
@@ -43,10 +43,11 @@ class GiphyClient {
     int limit = 30,
     String rating = GiphyRating.g,
     String lang = GiphyLanguage.english,
+    bool sticker = false,
   }) async {
     return _fetchCollection(
       baseUri.replace(
-        path: 'v1/gifs/search',
+        path: sticker ? 'v1/stickers/search' : 'v1/gifs/search',
         queryParameters: <String, String>{
           'q': query,
           'offset': '$offset',
@@ -59,13 +60,14 @@ class GiphyClient {
   }
 
   Future<GiphyGif> random({
-    String tag,
+    String? tag,
     String rating = GiphyRating.g,
+    bool sticker = false,
   }) async {
     return _fetchGif(
       baseUri.replace(
-        path: 'v1/gifs/random',
-        queryParameters: <String, String>{
+        path: sticker ? 'v1/stickers/random' : 'v1/gifs/random',
+        queryParameters: <String, String?>{
           'tag': tag,
           'rating': rating,
         },
@@ -92,12 +94,10 @@ class GiphyClient {
 
   Future<Response> _getWithAuthorization(Uri uri) async {
     final response = await _client.get(
-      uri
-          .replace(
-            queryParameters: Map<String, String>.from(uri.queryParameters)
-              ..putIfAbsent('api_key', () => _apiKey),
-          )
-          .toString(),
+      uri.replace(
+        queryParameters: Map<String, String>.from(uri.queryParameters)
+          ..putIfAbsent('api_key', () => _apiKey),
+      ),
     );
 
     if (response.statusCode == 200) {
